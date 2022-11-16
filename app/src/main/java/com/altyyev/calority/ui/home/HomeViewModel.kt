@@ -1,16 +1,41 @@
 package com.altyyev.calority.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.altyyev.calority.data.WeightRepository
+import com.altyyev.calority.domain.uimodel.WeightUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val repository: WeightRepository
+) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    init {
+        getAllHistories()
     }
-    val text: LiveData<String> = _text
+
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState
+
+    private fun getAllHistories() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val weights = repository.getAllHistory()
+            _uiState.update {
+                it.copy(histories = weights)
+            }
+        }
+    }
+
+    data class UiState(
+        val histories: List<WeightUiModel> = emptyList()
+
+    )
+
 }
