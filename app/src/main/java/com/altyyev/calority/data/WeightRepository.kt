@@ -11,9 +11,9 @@ import javax.inject.Inject
 
 class WeightRepository @Inject constructor(private val dao: WeightDao) {
 
-    fun getAllHistory(): LiveData<List<WeightUiModel>> {
+    fun getAllHistory(): List<WeightUiModel> {
         return dao.getAll().map { entity ->
-            WeightEntityMapper.mapList(entity)
+            WeightEntityMapper.map(entity)
         }
     }
 

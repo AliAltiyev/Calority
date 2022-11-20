@@ -12,7 +12,7 @@ import java.util.*
 interface WeightDao {
 
     @Query("SELECT * FROM weight")
-    fun getAll(): LiveData<List<WeightEntity>>
+    fun getAll(): List<WeightEntity>
 
     @Query("SELECT * FROM weight WHERE timestamp  = :timeStamp")
     fun findWeightByOnDate(timeStamp: Date): List<WeightEntity>

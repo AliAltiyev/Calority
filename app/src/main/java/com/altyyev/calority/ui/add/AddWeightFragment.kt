@@ -2,11 +2,13 @@ package com.altyyev.calority.ui.add
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.altyyev.calority.R
 import com.altyyev.calority.databinding.FragmentAddWeightBinding
+import com.altyyev.calority.utils.showToast
 import com.altyyev.calority.utils.toFormat
 import com.altyyev.calority.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -60,10 +62,10 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                 .collect {
                     when (it) {
                         is AddWeightViewModel.Event.Toast -> {
-                            Toast.makeText(context, R.string.empty_weight, Toast.LENGTH_SHORT)
-                                .show()
+                            context.showToast(R.string.empty_weight)
                         }
                         is AddWeightViewModel.Event.PopBackStack -> {
+                            setFragmentResult("RequestKey", bundleOf())
                             dismiss()
                         }
                     }

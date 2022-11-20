@@ -3,7 +3,9 @@ package com.altyyev.calority.ui.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.altyyev.calority.R
 import com.altyyev.calority.databinding.FragmentHomeBinding
@@ -11,7 +13,6 @@ import com.altyyev.calority.domain.uimodel.WeightUiModel
 import com.altyyev.calority.ui.home.adapter.WeightHistoryAdapter
 import com.altyyev.calority.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -25,7 +26,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.tag("Fragment").d("State")
         binding.floatingActionBar.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_addWeightFragment)
         }
@@ -39,11 +39,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun observe() {
-        viewModel.weightHistories.observe(viewLifecycleOwner) { histories ->
-            weightHistoryAdapter.submitList(histories)
+        lifecycleScope.launchWhenCreated {
+            viewModel.uiState.collect(::setUiState)
+        }
+        setFragmentResultListener("RequestKey") { _, _ ->
+            viewModel.getAllHistories()
         }
     }
 
+    private fun setUiState(uiState: HomeViewModel.UiState) {
+        weightHistoryAdapter.submitList(uiState.histories)
+
+    }
 
     private fun onClickWeight(weight: WeightUiModel) {
     }

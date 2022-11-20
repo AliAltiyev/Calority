@@ -18,5 +18,6 @@ class WeightHistoryViewHolder(
         }
         noteTxt.text = weightUiModel.note
         weightTxt.text = weightUiModel.weight.toString()
+        date.text = weightUiModel.timeStamp.toString()
     }
 }
