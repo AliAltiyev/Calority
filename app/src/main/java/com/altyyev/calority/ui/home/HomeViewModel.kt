@@ -17,6 +17,10 @@ class HomeViewModel @Inject constructor(
     private val repository: WeightRepository
 ) : ViewModel() {
 
+    init {
+        getAllHistories()
+    }
+
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
 

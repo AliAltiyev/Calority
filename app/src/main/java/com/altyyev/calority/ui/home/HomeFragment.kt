@@ -7,9 +7,11 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.altyyev.calority.R
 import com.altyyev.calority.databinding.FragmentHomeBinding
 import com.altyyev.calority.domain.uimodel.WeightUiModel
+import com.altyyev.calority.ui.home.adapter.ItemDecorator
 import com.altyyev.calority.ui.home.adapter.WeightHistoryAdapter
 import com.altyyev.calority.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,11 +33,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         initViews()
         observe()
-
     }
 
     private fun initViews() = with(binding) {
         recyclerView.adapter = weightHistoryAdapter
+        recyclerView.addItemDecoration(ItemDecorator(requireContext()))
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(), DividerItemDecoration.VERTICAL
+            )
+        )
     }
 
     private fun observe() {
