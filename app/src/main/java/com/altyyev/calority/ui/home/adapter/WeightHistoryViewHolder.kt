@@ -16,5 +16,7 @@ class WeightHistoryViewHolder(
         itemView.setOnClickListener {
             onClickWeight.invoke(weightUiModel)
         }
+        noteTxt.text = weightUiModel.note
+        weightTxt.text = weightUiModel.weight.toString()
     }
 }

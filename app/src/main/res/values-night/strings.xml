@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="select_date">Select Date</string>
+	<string name="note">Note</string>
+	<string name="input_weight">Input Weight</string>
+	<string name="Save">save</string>
+
+</resources>

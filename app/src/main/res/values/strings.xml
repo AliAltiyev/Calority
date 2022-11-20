@@ -3,4 +3,10 @@
 	<string name="title_home">Home</string>
 	<string name="title_dashboard">Dashboard</string>
 	<string name="title_notifications">Notifications</string>
+	<string name="select_date">Select Date</string>
+	<string name="note">Note</string>
+	<string name="input_weight">Input Weight</string>
+	<string name="Save">save</string>
+	<string name="empty_weight"> Enter weight</string>
+
 </resources>

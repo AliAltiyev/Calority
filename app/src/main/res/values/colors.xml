@@ -7,4 +7,11 @@
 	<color name="teal_700">#FF018786</color>
 	<color name="black">#FF000000</color>
 	<color name="white">#FFFFFFFF</color>
+	<color name="Hot_Pink">#EF7C8E</color>
+	<color name="Cream">#FAE8E0</color>
+	<color name="Spearmint">#B6E2D3</color>
+	<color name="Rosewater">#D8A7B1</color>
+	<color name="Yellow">#FFF4BD</color>
+	<color name="Rose_Quartz">#F4B9B8</color>
+	<color name="Purple">#887BB0</color>
 </resources>

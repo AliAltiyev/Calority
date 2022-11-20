@@ -3,13 +3,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/mobile_navigation"
-	app:startDestination="@+id/navigation_home">
-
-	<fragment
-		android:id="@+id/navigation_home"
-		android:name="com.altyyev.calority.ui.home.HomeFragment"
-		android:label="@string/title_home"
-		tools:layout="@layout/fragment_home" />
+	app:startDestination="@id/homeFragment">
 
 	<fragment
 		android:id="@+id/navigation_dashboard"
@@ -22,4 +16,22 @@
 		android:name="com.altyyev.calority.ui.notifications.NotificationsFragment"
 		android:label="@string/title_notifications"
 		tools:layout="@layout/fragment_notifications" />
+	<fragment
+		android:id="@+id/homeFragment"
+		android:name="com.altyyev.calority.ui.home.HomeFragment"
+		android:label="fragment_home"
+		tools:layout="@layout/fragment_home" >
+		<action
+			android:id="@+id/action_homeFragment_to_addWeightFragment"
+			app:destination="@id/addWeightFragment" />
+	</fragment>
+	<dialog
+		android:id="@+id/addWeightFragment"
+		android:name="com.altyyev.calority.ui.add.AddWeightFragment"
+		android:label="fragment_add_weight"
+		tools:layout="@layout/fragment_add_weight" >
+		<action
+			android:id="@+id/action_addWeightFragment_to_homeFragment"
+			app:destination="@id/homeFragment" />
+	</dialog>
 </navigation>
