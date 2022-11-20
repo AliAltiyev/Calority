@@ -14,4 +14,24 @@
 		tools:layout_editor_absoluteX="1dp"
 		android:id="@+id/recycler_view"
 		tools:layout_editor_absoluteY="1dp" />
+
+
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|end"
+		android:layout_margin="32dp"
+		android:id="@+id/floating_action_bar"
+		android:background="#C14444"
+		android:backgroundTint="@color/Hot_Pink"
+		android:backgroundTintMode="screen"
+		android:foreground="@drawable/ic_add"
+		android:foregroundTint="@color/white"
+		android:pointerIcon="alias"
+		android:tint="#A62525"
+		app:backgroundTint="#5A1212"
+		app:fabSize="auto"
+		app:maxImageSize="44dp"
+		app:rippleColor="@color/Spearmint" />
+
 </FrameLayout>

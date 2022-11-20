@@ -24,7 +24,8 @@ object LocaleModule {
         app,
         AppDatabase::class.java,
         DATABASE_NAME
-    ).build()
+
+    ).fallbackToDestructiveMigration().build()
 
     @Singleton
     @Provides
