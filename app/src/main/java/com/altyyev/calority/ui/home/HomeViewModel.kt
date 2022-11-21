@@ -4,12 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altyyev.calority.data.WeightRepository
 import com.altyyev.calority.domain.uimodel.WeightUiModel
+import com.altyyev.calority.utils.endOfDay
+import com.altyyev.calority.utils.startOfDay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,13 +28,14 @@ class HomeViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
 
-     fun getAllHistories() {
+    private fun getAllHistories() {
         viewModelScope.launch(Dispatchers.IO) {
-            val weights = repository.getAllHistory()
-            _uiState.update {
-                it.copy(
-                    histories = weights
-                )
+            repository.getAllHistory().collectLatest { list ->
+                _uiState.update {
+                    it.copy(
+                        histories = list
+                    )
+                }
             }
         }
     }

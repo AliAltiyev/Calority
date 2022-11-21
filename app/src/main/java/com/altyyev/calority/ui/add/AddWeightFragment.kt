@@ -2,8 +2,6 @@ package com.altyyev.calority.ui.add
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.altyyev.calority.R
@@ -32,6 +30,7 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
         super.onViewCreated(view, savedInstanceState)
         initViews()
         observeSingleLiveEvent()
+        viewModel.fetchWeightByDate(selectedDate)
     }
 
     private fun initViews() = with(binding) {
@@ -44,6 +43,7 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
             datePicker.addOnPositiveButtonClickListener { timestamp ->
                 selectedDate = Date(timestamp)
                 btnSelectDate.text = selectedDate.toFormat(CURRENT_DATE_FORMAT)
+                viewModel.fetchWeightByDate(selectedDate)
             }
             datePicker.show(parentFragmentManager, TAG_DATE_PICKER)
         }
@@ -65,12 +65,22 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                             context.showToast(R.string.empty_weight)
                         }
                         is AddWeightViewModel.Event.PopBackStack -> {
-                            setFragmentResult("RequestKey", bundleOf())
                             dismiss()
                         }
                     }
                 }
         }
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.uiState.collect(
+                ::setUiState
+            )
+        }
+    }
+
+    private fun setUiState(uiState: AddWeightViewModel.UiState) = with(binding) {
+        inputNoteTxt.setText(uiState.currentWeight?.note)
+        inputWeightTxt.setText(uiState.currentWeight?.weight)
     }
 
 }
