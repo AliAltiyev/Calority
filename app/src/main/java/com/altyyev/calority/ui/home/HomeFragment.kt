@@ -71,7 +71,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setBarChart(histories: List<WeightUiModel>) = with(binding) {
 
-        val values = histories.mapIndexed { index, weight ->
+        val values = histories.reversed().mapIndexed { index, weight ->
             BarEntry(index.toFloat(), weight.weight?.toFloat() ?: 0f)
         }
         val chart = BarDataSet(values, "")
@@ -90,7 +90,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 description.isEnabled = false
                 setPinchZoom(false)
                 color = Color.MAGENTA
-
 
             }
         }

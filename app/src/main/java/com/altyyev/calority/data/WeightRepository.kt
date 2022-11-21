@@ -6,6 +6,7 @@ import com.altyyev.calority.domain.mapper.WeightEntityMapper
 import com.altyyev.calority.domain.uimodel.WeightUiModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.*
 import javax.inject.Inject
 
 
@@ -20,4 +21,9 @@ class WeightRepository @Inject constructor(private val dao: WeightDao) {
     fun insertWeight(weightEntity: WeightEntity) {
         return dao.insert(weightEntity)
     }
+
+    fun findWeightByDate(startOfDay: Date, endOfDay: Date): List<WeightUiModel> =
+        dao.findWeightByDate(startOfDay, endOfDay).map { model ->
+            WeightEntityMapper.map(model)
+        }
 }

@@ -6,10 +6,16 @@ import androidx.lifecycle.viewModelScope
 import com.altyyev.calority.R
 import com.altyyev.calority.data.WeightRepository
 import com.altyyev.calority.data.room.entity.WeightEntity
+import com.altyyev.calority.domain.uimodel.WeightUiModel
+import com.altyyev.calority.utils.endOfDay
+import com.altyyev.calority.utils.startOfDay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -18,13 +24,11 @@ import javax.inject.Inject
 class AddWeightViewModel @Inject constructor(private val repository: WeightRepository) :
     ViewModel() {
 
-    sealed class Event {
-        object PopBackStack : Event()
-        data class Toast(@StringRes private val text: Int) : Event()
-    }
-
     private val eventChannel = Channel<Event>(Channel.BUFFERED)
     val eventsFlow = eventChannel.receiveAsFlow()
+
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState
 
     fun insertWeight(weight: String, note: String, timeStamp: Date) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -47,5 +51,26 @@ class AddWeightViewModel @Inject constructor(private val repository: WeightRepos
                 }
             }
         }
+    }
+
+
+    fun fetchWeightByDate(date: Date) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val weight = repository.findWeightByDate(
+                startOfDay = date.startOfDay(),
+                endOfDay = date.endOfDay()
+            )
+            _uiState.update {
+                it.copy(currentWeight = weight.firstOrNull())
+            }
+        }
+    }
+
+
+    data class UiState(var currentWeight: WeightUiModel? = null)
+
+    sealed class Event {
+        object PopBackStack : Event()
+        data class Toast(@StringRes private val text: Int) : Event()
     }
 }
