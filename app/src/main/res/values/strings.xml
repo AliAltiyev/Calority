@@ -9,6 +9,7 @@
 	<string name="Save">save</string>
 	<string name="empty_weight">Not entered weight or note</string>
 	<string name="kg">%1$s kg</string>
+	<string name="add">Add</string>
 
 
 </resources>

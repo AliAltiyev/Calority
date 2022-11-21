@@ -65,7 +65,7 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                             context.showToast(R.string.empty_weight)
                         }
                         is AddWeightViewModel.Event.PopBackStack -> {
-                            setFragmentResult("RequestKey", bundleOf())
+//                            setFragmentResult("RequestKey", bundleOf())
                             dismiss()
                         }
                     }

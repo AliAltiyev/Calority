@@ -3,12 +3,14 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
+
 	android:fillViewport="true"
 	android:layout_height="match_parent">
 
 
 	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
+		android:id="@+id/nested_Scroll_view"
 		android:fillViewport="true"
 		android:layout_height="match_parent">
 
@@ -38,13 +40,5 @@
 
 		</androidx.constraintlayout.widget.ConstraintLayout>
 	</androidx.core.widget.NestedScrollView>
-
-	<com.google.android.material.floatingactionbutton.FloatingActionButton
-		android:id="@+id/floatingActionBar"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="bottom|end"
-		android:layout_margin="16dp" />
-
 </FrameLayout>
 

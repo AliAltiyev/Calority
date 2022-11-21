@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,15 +26,16 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<UiState> = _uiState
 
      fun getAllHistories() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val weights = repository.getAllHistory()
-            _uiState.update {
-                it.copy(
-                    histories = weights
-                )
-            }
-        }
-    }
+         viewModelScope.launch(Dispatchers.IO) {
+             repository.getAllHistory().collectLatest { list ->
+                 _uiState.update {
+                     it.copy(
+                         histories = list
+                     )
+                 }
+             }
+         }
+     }
 
 
     data class UiState(var histories: List<WeightUiModel> = emptyList())

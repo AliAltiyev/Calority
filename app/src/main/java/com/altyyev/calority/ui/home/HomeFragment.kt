@@ -2,6 +2,9 @@ package com.altyyev.calority.ui.home
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -21,6 +24,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -31,11 +35,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         WeightHistoryAdapter(::onClickWeight)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.floatingActionBar.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_addWeightFragment)
-        }
         initViews()
         observe()
     }
@@ -53,9 +59,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun observe() {
         lifecycleScope.launchWhenCreated {
             viewModel.uiState.collect(::setUiState)
-        }
-        setFragmentResultListener("RequestKey") { _, _ ->
-            viewModel.getAllHistories()
         }
     }
 
@@ -91,6 +94,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             }
         }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.home_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.add_weight -> {
+                findNavController().navigate(R.id.action_homeFragment_to_addWeightFragment)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+
     }
 
 
