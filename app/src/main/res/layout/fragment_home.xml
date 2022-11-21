@@ -3,35 +3,48 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context=".ui.home.HomeFragment">
+	android:fillViewport="true"
+	android:layout_height="match_parent">
 
 
-	<androidx.recyclerview.widget.RecyclerView
+	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
-		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-		android:layout_height="match_parent"
-		tools:layout_editor_absoluteX="1dp"
-		android:id="@+id/recycler_view"
-		tools:layout_editor_absoluteY="1dp" />
+		android:fillViewport="true"
+		android:layout_height="match_parent">
 
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			tools:context=".ui.home.HomeFragment">
+
+			<com.github.mikephil.charting.charts.BarChart
+				android:id="@+id/bar_chart"
+				app:layout_constraintTop_toTopOf="parent"
+				android:layout_width="match_parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				android:layout_height="400dp" />
+
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/recycler_view"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:layout_constraintTop_toBottomOf="@id/bar_chart"
+				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+				app:layout_constraintBottom_toBottomOf="parent"
+				tools:layout_editor_absoluteX="0dp" />
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.core.widget.NestedScrollView>
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
+		android:id="@+id/floatingActionBar"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end"
-		android:layout_margin="32dp"
-		android:id="@+id/floating_action_bar"
-		android:background="#C14444"
-		android:backgroundTint="@color/Hot_Pink"
-		android:backgroundTintMode="screen"
-		android:foreground="@drawable/ic_add"
-		android:foregroundTint="@color/white"
-		android:pointerIcon="alias"
-		android:tint="#A62525"
-		app:backgroundTint="#5A1212"
-		app:fabSize="auto"
-		app:maxImageSize="44dp"
-		app:rippleColor="@color/Spearmint" />
+		android:layout_margin="16dp" />
 
 </FrameLayout>
+

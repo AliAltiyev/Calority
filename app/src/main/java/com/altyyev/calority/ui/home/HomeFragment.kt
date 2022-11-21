@@ -1,5 +1,6 @@
 package com.altyyev.calority.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -14,6 +15,10 @@ import com.altyyev.calority.domain.uimodel.WeightUiModel
 import com.altyyev.calority.ui.home.adapter.ItemDecorator
 import com.altyyev.calority.ui.home.adapter.WeightHistoryAdapter
 import com.altyyev.calority.utils.viewBinding
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,9 +61,40 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setUiState(uiState: HomeViewModel.UiState) {
         weightHistoryAdapter.submitList(uiState.histories)
+        setBarChart(uiState.histories)
 
     }
+
+
+    private fun setBarChart(histories: List<WeightUiModel>) = with(binding) {
+
+        val values = histories.mapIndexed { index, weight ->
+            BarEntry(index.toFloat(), weight.weight?.toFloat() ?: 0f)
+        }
+        val chart = BarDataSet(values, "")
+        chart.run {
+            valueTextSize = 10f
+            val dataSet: ArrayList<IBarDataSet> = ArrayList()
+            dataSet.add(this)
+            val data = BarData(dataSet)
+            barChart.data = data
+            barChart.invalidate()
+            barChart.run {
+                setDrawBorders(true)
+                setGridBackgroundColor(R.color.Cream)
+                setBackgroundColor(Color.WHITE);
+                setDrawBorders(true)
+                description.isEnabled = false
+                setPinchZoom(false)
+                color = Color.MAGENTA
+
+
+            }
+        }
+    }
+
 
     private fun onClickWeight(weight: WeightUiModel) {
     }
 }
+

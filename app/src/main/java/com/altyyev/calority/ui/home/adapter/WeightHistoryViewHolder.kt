@@ -2,6 +2,7 @@ package com.altyyev.calority.ui.home.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.altyyev.calority.R
 import com.altyyev.calority.databinding.WeightHistoryRecyclerItemBinding
 import com.altyyev.calority.domain.uimodel.WeightUiModel
 
@@ -17,7 +18,7 @@ class WeightHistoryViewHolder(
             onClickWeight.invoke(weightUiModel)
         }
         noteTxt.text = weightUiModel.note
-        weightTxt.text = weightUiModel.weight.toString()
+        weightTxt.text = itemView.context.getString(R.string.kg, weightUiModel.weight)
         date.text = weightUiModel.timeStamp.toString()
     }
 }
