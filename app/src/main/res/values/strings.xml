@@ -7,6 +7,8 @@
 	<string name="note">Note</string>
 	<string name="input_weight">Input Weight</string>
 	<string name="Save">save</string>
-	<string name="empty_weight"> Enter weight</string>
+	<string name="empty_weight">Not entered weight or note</string>
+	<string name="kg">%1$s kg</string>
+
 
 </resources>
