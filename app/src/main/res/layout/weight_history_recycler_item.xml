@@ -23,7 +23,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_margin="8dp"
-				android:text="Weight"
+				android:text="@string/weight"
 				android:textColor="@color/white"
 				android:textSize="18sp"
 				app:layout_constraintBottom_toBottomOf="@id/root_cons"
@@ -35,15 +35,12 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_margin="8dp"
-				android:text="Note "
+				android:text="@string/note"
 				android:layout_marginStart="32dp"
-
 				android:textColor="@color/white"
 				android:textSize="18sp"
 				app:layout_constraintBottom_toBottomOf="@id/weight_txt"
-
 				app:layout_constraintEnd_toEndOf="parent"
-
 				app:layout_constraintHorizontal_bias="1.0"
 				app:layout_constraintStart_toEndOf="@id/weight_txt"
 				app:layout_constraintTop_toTopOf="@id/weight_txt" />
@@ -55,7 +52,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_margin="8dp"
-				android:text="Date "
+				android:text="@string/date"
 				android:layout_marginStart="32dp"
 				android:textColor="@color/white"
 				android:textSize="18sp"

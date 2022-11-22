@@ -7,7 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -85,7 +84,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             barChart.run {
                 setDrawBorders(true)
                 setGridBackgroundColor(R.color.Cream)
-                setBackgroundColor(Color.WHITE);
+                setBackgroundColor(Color.WHITE)
                 setDrawBorders(true)
                 description.isEnabled = false
                 setPinchZoom(false)

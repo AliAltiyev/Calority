@@ -2,13 +2,12 @@ package com.altyyev.calority.ui.add
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.altyyev.calority.R
 import com.altyyev.calority.databinding.FragmentAddWeightBinding
-import com.altyyev.calority.utils.showToast
-import com.altyyev.calority.utils.toFormat
-import com.altyyev.calority.utils.viewBinding
+import com.altyyev.calority.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +33,15 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
     }
 
     private fun initViews() = with(binding) {
+        prevDay.setOnClickListener {
+            fetchDate(date = selectedDate.previousDay())
+
+        }
+
+        nextDay.setOnClickListener {
+            fetchDate(date = selectedDate.nextDay())
+        }
+
         btnSelectDate.setOnClickListener {
             val datePicker =
                 MaterialDatePicker.Builder.datePicker()
@@ -41,20 +49,21 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                     .setSelection(selectedDate.time)
                     .build()
             datePicker.addOnPositiveButtonClickListener { timestamp ->
-                selectedDate = Date(timestamp)
-                btnSelectDate.text = selectedDate.toFormat(CURRENT_DATE_FORMAT)
-                viewModel.fetchWeightByDate(selectedDate)
+                fetchDate(Date(timestamp))
             }
             datePicker.show(parentFragmentManager, TAG_DATE_PICKER)
         }
         btnSelectDate.text = selectedDate.toFormat(CURRENT_DATE_FORMAT)
         btnSaveWeight.isClickable = false
-        btnSaveWeight.setOnClickListener {
-            val weight = inputWeightTxt.text.toString()
-            val note = inputNoteTxt.text.toString()
-            viewModel.insertWeight(weight = weight, note = note, timeStamp = selectedDate)
-        }
+
     }
+
+    private fun fetchDate(date: Date) {
+        selectedDate = date
+        binding.btnSelectDate.text = selectedDate.toFormat(CURRENT_DATE_FORMAT)
+        viewModel.fetchWeightByDate(selectedDate)
+    }
+
 
     private fun observeSingleLiveEvent() {
         lifecycleScope.launchWhenStarted {
@@ -79,8 +88,50 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
     }
 
     private fun setUiState(uiState: AddWeightViewModel.UiState) = with(binding) {
-        inputNoteTxt.setText(uiState.currentWeight?.note)
-        inputWeightTxt.setText(uiState.currentWeight?.weight)
-    }
+        val currentWeight = uiState.currentWeight
 
+        inputNoteTxt.setText(currentWeight?.note.orEmpty())
+        inputWeightTxt.setText(currentWeight?.weight.orEmpty())
+
+        if (currentWeight != null) {
+            //Update weight
+            btnSaveWeight.run {
+                setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.Spearmint
+                    )
+                )
+                setText(R.string.Update)
+                icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_update)
+                setIconTintResource(R.color.white)
+                setOnClickListener {
+                    val weight = inputWeightTxt.text.toString()
+                    val note = inputNoteTxt.text.toString()
+                    viewModel.updateWeight(weight = weight, note = note, timeStamp = selectedDate)
+                }
+            }
+        } else {
+            //save weight
+            btnSaveWeight.run {
+                setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.Hot_Pink
+                    )
+                )
+                icon = ContextCompat.getDrawable(requireContext(), R.drawable.icon_add)
+                setIconTintResource(R.color.white)
+                setText(R.string.Save)
+
+                setOnClickListener {
+                    val weight = inputWeightTxt.text.toString()
+                    val note = inputNoteTxt.text.toString()
+                    viewModel.insertWeight(weight = weight, note = note, timeStamp = selectedDate)
+                }
+            }
+
+
+        }
+    }
 }

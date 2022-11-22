@@ -14,16 +14,20 @@ class WeightRepository @Inject constructor(private val dao: WeightDao) {
 
     fun getAllHistory(): Flow<List<WeightUiModel>> = dao.getAll().map { listOfModel ->
         listOfModel.map { model ->
-            WeightEntityMapper.map(model)
+            WeightEntityMapper.mapFromEntity(model)
         }
     }
 
-    fun insertWeight(weightEntity: WeightEntity) {
-        return dao.insert(weightEntity)
+    suspend fun insertWeight(weightEntity: WeightEntity) {
+        return dao.insertWeight(weightEntity)
     }
 
     fun findWeightByDate(startOfDay: Date, endOfDay: Date): List<WeightUiModel> =
         dao.findWeightByDate(startOfDay, endOfDay).map { model ->
-            WeightEntityMapper.map(model)
+            WeightEntityMapper.mapFromEntity(model)
         }
+
+    suspend fun updateWeight(weightEntity: WeightEntity) {
+        dao.updateWeight(weightEntity)
+    }
 }
