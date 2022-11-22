@@ -7,9 +7,14 @@
 	<string name="note">Note</string>
 	<string name="input_weight">Input Weight</string>
 	<string name="Save">save</string>
+	<string name="Update">update</string>
 	<string name="empty_weight">Not entered weight or note</string>
 	<string name="kg">%1$s kg</string>
 	<string name="add">Add</string>
+	<string name="weight">Weight</string>
+	<string name="date">Date</string>
+	<string name="previous_day">Prev</string>
+	<string name="next_day">Next</string>
 
 
 </resources>

@@ -5,8 +5,15 @@ import com.altyyev.calority.domain.uimodel.WeightUiModel
 
 object WeightEntityMapper {
 
-    fun map(weightEntity: WeightEntity) = WeightUiModel(
+    fun mapFromEntity(weightEntity: WeightEntity) = WeightUiModel(
         uid = weightEntity.uid,
+        weight = weightEntity.weight.orEmpty(),
+        emoji = weightEntity.emoji.orEmpty(),
+        note = weightEntity.note.orEmpty(),
+        timeStamp = weightEntity.timeStamp
+    )
+
+    fun mapToEntity(weightEntity: WeightUiModel) = WeightEntity(
         weight = weightEntity.weight.orEmpty(),
         emoji = weightEntity.emoji.orEmpty(),
         note = weightEntity.note.orEmpty(),
@@ -15,7 +22,7 @@ object WeightEntityMapper {
 
     fun mapList(list: List<WeightEntity>): List<WeightUiModel> {
         return list.map {
-            map(it)
+            mapFromEntity(it)
         }
     }
 }

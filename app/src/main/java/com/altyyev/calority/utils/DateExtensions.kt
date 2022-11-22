@@ -25,3 +25,19 @@ fun Date.endOfDay(): Date {
     calendar.set(Calendar.HOUR, 23)
     return calendar.time
 }
+
+
+fun Date.nextDay(): Date {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    calendar.add(Calendar.DATE, +1)
+    return calendar.time
+}
+
+fun Date.previousDay(): Date {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    calendar.add(Calendar.DATE, -1)
+    return calendar.time
+}
+

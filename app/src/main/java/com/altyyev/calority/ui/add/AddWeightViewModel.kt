@@ -30,6 +30,26 @@ class AddWeightViewModel @Inject constructor(private val repository: WeightRepos
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
 
+
+    fun updateWeight(weight: String, note: String, timeStamp: Date) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateWeight(
+                weightEntity = WeightEntity(
+                    weight = weight,
+                    note = note,
+                    timeStamp = timeStamp,
+                    emoji = ""
+                )
+
+            )
+            eventChannel.send(
+                Event.PopBackStack
+            )
+
+        }
+
+    }
+
     fun insertWeight(weight: String, note: String, timeStamp: Date) {
         viewModelScope.launch(Dispatchers.IO) {
             when {
@@ -53,7 +73,6 @@ class AddWeightViewModel @Inject constructor(private val repository: WeightRepos
         }
     }
 
-
     fun fetchWeightByDate(date: Date) {
         viewModelScope.launch(Dispatchers.IO) {
             val weight = repository.findWeightByDate(
@@ -61,11 +80,10 @@ class AddWeightViewModel @Inject constructor(private val repository: WeightRepos
                 endOfDay = date.endOfDay()
             )
             _uiState.update {
-                it.copy(currentWeight = weight.firstOrNull())
+                it.copy(currentWeight = weight.lastOrNull())
             }
         }
     }
-
 
     data class UiState(var currentWeight: WeightUiModel? = null)
 
