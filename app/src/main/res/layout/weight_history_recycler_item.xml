@@ -24,6 +24,7 @@
 				android:layout_height="wrap_content"
 				android:layout_margin="8dp"
 				android:text="@string/weight"
+				android:clickable="true"
 				android:textColor="@color/white"
 				android:textSize="18sp"
 				app:layout_constraintBottom_toBottomOf="@id/root_cons"

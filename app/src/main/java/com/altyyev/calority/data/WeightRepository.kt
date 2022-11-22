@@ -18,9 +18,13 @@ class WeightRepository @Inject constructor(private val dao: WeightDao) {
         }
     }
 
-    suspend fun insertWeight(weightEntity: WeightEntity) {
-        return dao.insertWeight(weightEntity)
-    }
+
+
+
+    //Todo should remove this line code
+//    suspend fun insertWeight(weightEntity: WeightEntity) {
+//        return dao.insertWeight(weightEntity)
+//    }
 
     fun findWeightByDate(startOfDay: Date, endOfDay: Date): List<WeightUiModel> =
         dao.findWeightByDate(startOfDay, endOfDay).map { model ->

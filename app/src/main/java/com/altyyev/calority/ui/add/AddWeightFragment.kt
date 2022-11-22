@@ -1,6 +1,7 @@
 package com.altyyev.calority.ui.add
 
 import android.os.Bundle
+import android.system.Os.bind
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -33,6 +34,13 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
     }
 
     private fun initViews() = with(binding) {
+
+        btnSaveOrUpdateWeight.setOnClickListener {
+            val weight = inputWeightTxt.text.toString()
+            val note = inputNoteTxt.text.toString()
+            viewModel.insertOrUpdateWeight(weight = weight, note = note, timeStamp = selectedDate)
+        }
+
         prevDay.setOnClickListener {
             fetchDate(date = selectedDate.previousDay())
 
@@ -54,8 +62,6 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
             datePicker.show(parentFragmentManager, TAG_DATE_PICKER)
         }
         btnSelectDate.text = selectedDate.toFormat(CURRENT_DATE_FORMAT)
-        btnSaveWeight.isClickable = false
-
     }
 
     private fun fetchDate(date: Date) {
@@ -95,7 +101,7 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
 
         if (currentWeight != null) {
             //Update weight
-            btnSaveWeight.run {
+            btnSaveOrUpdateWeight.run {
                 setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -105,15 +111,10 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                 setText(R.string.Update)
                 icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_update)
                 setIconTintResource(R.color.white)
-                setOnClickListener {
-                    val weight = inputWeightTxt.text.toString()
-                    val note = inputNoteTxt.text.toString()
-                    viewModel.updateWeight(weight = weight, note = note, timeStamp = selectedDate)
-                }
             }
         } else {
             //save weight
-            btnSaveWeight.run {
+            btnSaveOrUpdateWeight.run {
                 setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -123,12 +124,6 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                 icon = ContextCompat.getDrawable(requireContext(), R.drawable.icon_add)
                 setIconTintResource(R.color.white)
                 setText(R.string.Save)
-
-                setOnClickListener {
-                    val weight = inputWeightTxt.text.toString()
-                    val note = inputNoteTxt.text.toString()
-                    viewModel.insertWeight(weight = weight, note = note, timeStamp = selectedDate)
-                }
             }
 
 
