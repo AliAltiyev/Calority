@@ -34,7 +34,7 @@ class AddWeightViewModel @Inject constructor(
     val uiState: StateFlow<UiState> = _uiState
 
 
-    fun insertOrUpdateWeight(weight: String, note: String, timeStamp: Date) {
+    fun insertOrUpdateWeight(weight: String, note: String, timeStamp: Date, emoji: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when {
                 weight.isBlank() || note.isBlank() -> {
@@ -45,6 +45,7 @@ class AddWeightViewModel @Inject constructor(
                         weight = weight,
                         note = note,
                         timeStamp = timeStamp,
+                        emoji = emoji
                     )
 
                     eventChannel.send(

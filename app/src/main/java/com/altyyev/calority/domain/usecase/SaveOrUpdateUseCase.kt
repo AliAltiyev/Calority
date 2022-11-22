@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class SaveOrUpdateUseCase @Inject constructor(private val dao: WeightDao) {
 
-    suspend operator fun invoke(weight: String, note: String, timeStamp: Date) {
+    suspend operator fun invoke(weight: String, note: String, timeStamp: Date,emoji : String) {
 
         val weightList =
             dao.findWeightByDate(
@@ -25,7 +25,7 @@ class SaveOrUpdateUseCase @Inject constructor(private val dao: WeightDao) {
                     weight = weight,
                     timeStamp = timeStamp,
                     note = note,
-                    emoji = ""
+                    emoji = emoji
                 )
             )
         } else {
