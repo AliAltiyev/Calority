@@ -33,5 +33,12 @@
 		<action
 			android:id="@+id/action_addWeightFragment_to_homeFragment"
 			app:destination="@id/homeFragment" />
+		<action
+			android:id="@+id/action_addWeightFragment_to_emojiFragment"
+			app:destination="@id/emojiFragment" />
 	</dialog>
+	<dialog
+		android:id="@+id/emojiFragment"
+		android:name="EmojiFragment"
+		android:label="EmojiFragment" />
 </navigation>

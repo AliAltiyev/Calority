@@ -40,6 +40,7 @@ android {
 dependencies {
 
 
+    implementation 'androidx.emoji2:emoji2:1.0.0-alpha03'
     def room_version = "2.4.3"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -74,6 +75,12 @@ dependencies {
     //MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.github.AAChartModel:AAChartCore-Kotlin:-SNAPSHOT'
+
+    //Emoji Library
+    implementation "com.vanniktech:emoji-google:0.15.0"
+
+    //Google emojies
+    implementation "com.vanniktech:emoji-google:0.15.0"
 
 }
 repositories {

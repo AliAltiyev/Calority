@@ -4,5 +4,9 @@
 	<string name="note">Note</string>
 	<string name="input_weight">Input Weight</string>
 	<string name="Save">save</string>
+	<string name="weight">Weight</string>
+	<string name="date">Date</string>
+	<string name="previous_day">Prev</string>
+	<string name="next_day">Next</string>
 
 </resources>

@@ -23,7 +23,6 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -67,9 +66,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-
     private fun setBarChart(histories: List<WeightUiModel>) = with(binding) {
-
         val values = histories.reversed().mapIndexed { index, weight ->
             BarEntry(index.toFloat(), weight.weight?.toFloat() ?: 0f)
         }
@@ -93,7 +90,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

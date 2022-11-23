@@ -1,10 +1,13 @@
 package com.altyyev.calority.ui.add
 
+import EmojiFragment
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.altyyev.calority.R
 import com.altyyev.calority.databinding.FragmentAddWeightBinding
 import com.altyyev.calority.utils.*
@@ -18,6 +21,8 @@ const val TAG_DATE_PICKER = "Tag_Date_Picker"
 
 @AndroidEntryPoint
 class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight) {
+
+    var emoji: String = String.EMPTY
 
     private val viewModel: AddWeightViewModel by viewModels()
 
@@ -33,6 +38,20 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
     }
 
     private fun initViews() = with(binding) {
+        emojiButton.setOnClickListener {
+            findNavController().navigate(R.id.action_addWeightFragment_to_emojiFragment)
+        }
+        btnSaveOrUpdateWeight.setOnClickListener {
+            val weight = inputWeightTxt.text.toString()
+            val note = inputNoteTxt.text.toString()
+            viewModel.insertOrUpdateWeight(
+                weight = weight,
+                note = note,
+                timeStamp = selectedDate,
+                emoji
+            )
+        }
+
         prevDay.setOnClickListener {
             fetchDate(date = selectedDate.previousDay())
 
@@ -54,8 +73,6 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
             datePicker.show(parentFragmentManager, TAG_DATE_PICKER)
         }
         btnSelectDate.text = selectedDate.toFormat(CURRENT_DATE_FORMAT)
-        btnSaveWeight.isClickable = false
-
     }
 
     private fun fetchDate(date: Date) {
@@ -85,6 +102,11 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                 ::setUiState
             )
         }
+        setFragmentResultListener(EmojiFragment.KEY_REQUEST_EMOJI) { _, bundle ->
+            emoji = bundle.getString(EmojiFragment.KEY_BUNDLE_EMOJI).orEmpty()
+            binding.emojiButton.setText(emoji)
+        }
+
     }
 
     private fun setUiState(uiState: AddWeightViewModel.UiState) = with(binding) {
@@ -95,7 +117,7 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
 
         if (currentWeight != null) {
             //Update weight
-            btnSaveWeight.run {
+            btnSaveOrUpdateWeight.run {
                 setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -105,15 +127,10 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                 setText(R.string.Update)
                 icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_update)
                 setIconTintResource(R.color.white)
-                setOnClickListener {
-                    val weight = inputWeightTxt.text.toString()
-                    val note = inputNoteTxt.text.toString()
-                    viewModel.updateWeight(weight = weight, note = note, timeStamp = selectedDate)
-                }
             }
         } else {
             //save weight
-            btnSaveWeight.run {
+            btnSaveOrUpdateWeight.run {
                 setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -123,12 +140,6 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                 icon = ContextCompat.getDrawable(requireContext(), R.drawable.icon_add)
                 setIconTintResource(R.color.white)
                 setText(R.string.Save)
-
-                setOnClickListener {
-                    val weight = inputWeightTxt.text.toString()
-                    val note = inputNoteTxt.text.toString()
-                    viewModel.insertWeight(weight = weight, note = note, timeStamp = selectedDate)
-                }
             }
 
 

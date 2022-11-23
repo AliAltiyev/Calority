@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altyyev.calority.R
 import com.altyyev.calority.data.WeightRepository
-import com.altyyev.calority.data.room.entity.WeightEntity
 import com.altyyev.calority.domain.uimodel.WeightUiModel
+import com.altyyev.calority.domain.usecase.SaveOrUpdateUseCase
 import com.altyyev.calority.utils.endOfDay
 import com.altyyev.calority.utils.startOfDay
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,10 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class AddWeightViewModel @Inject constructor(private val repository: WeightRepository) :
+class AddWeightViewModel @Inject constructor(
+    private val repository: WeightRepository,
+    private val useCase: SaveOrUpdateUseCase
+) :
     ViewModel() {
 
     private val eventChannel = Channel<Event>(Channel.BUFFERED)
@@ -31,40 +34,20 @@ class AddWeightViewModel @Inject constructor(private val repository: WeightRepos
     val uiState: StateFlow<UiState> = _uiState
 
 
-    fun updateWeight(weight: String, note: String, timeStamp: Date) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateWeight(
-                weightEntity = WeightEntity(
-                    weight = weight,
-                    note = note,
-                    timeStamp = timeStamp,
-                    emoji = ""
-                )
-
-            )
-            eventChannel.send(
-                Event.PopBackStack
-            )
-
-        }
-
-    }
-
-    fun insertWeight(weight: String, note: String, timeStamp: Date) {
+    fun insertOrUpdateWeight(weight: String, note: String, timeStamp: Date, emoji: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when {
                 weight.isBlank() || note.isBlank() -> {
                     eventChannel.send(Event.Toast(R.string.select_date))
                 }
                 else -> {
-                    repository.insertWeight(
-                        WeightEntity(
-                            weight = weight,
-                            note = note,
-                            timeStamp = timeStamp,
-                            emoji = "Emoji"
-                        )
+                    useCase.invoke(
+                        weight = weight,
+                        note = note,
+                        timeStamp = timeStamp,
+                        emoji = emoji
                     )
+
                     eventChannel.send(
                         Event.PopBackStack
                     )
