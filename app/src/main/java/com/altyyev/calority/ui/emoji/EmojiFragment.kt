@@ -1,8 +1,8 @@
-package com.altyyev.calority.ui.emoji
-
 import android.app.Dialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
@@ -15,13 +15,10 @@ import com.vanniktech.emoji.Emoji
 import com.vanniktech.emoji.EmojiView
 import com.vanniktech.emoji.listeners.OnEmojiBackspaceClickListener
 import com.vanniktech.emoji.listeners.OnEmojiClickListener
-import timber.log.Timber
 
 class EmojiFragment : BottomSheetDialogFragment(), OnEmojiClickListener,
     OnEmojiBackspaceClickListener {
-
     lateinit var emojiView: EmojiView
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
@@ -47,35 +44,34 @@ class EmojiFragment : BottomSheetDialogFragment(), OnEmojiClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         emojiView = view.findViewById(R.id.emoji_view)
-        setUpViews()
-    }
-
-    private fun setUpViews() {
         emojiView.setUp(
-            rootView = requireView().rootView,
-            onEmojiClickListener = this@EmojiFragment,
-            onEmojiBackspaceClickListener = this@EmojiFragment,
-            editText = null
+            rootView = view.rootView,
+            onEmojiClickListener = this,
+            onEmojiBackspaceClickListener = this,
+            editText = null,
         )
     }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_emoji, container, false)
 
     override fun onDestroy() {
         super.onDestroy()
         emojiView.tearDown()
     }
 
+    override fun onEmojiBackspaceClick() {}
+
     override fun onEmojiClick(emoji: Emoji) {
-        Timber.d("Emoji => $emoji")
-        setFragmentResult(EMOJI_REQUEST_KEY, bundleOf(EMOJI_BUNDLE_KEY to emoji.unicode))
+        setFragmentResult(KEY_REQUEST_EMOJI, bundleOf(KEY_BUNDLE_EMOJI to emoji.unicode))
         findNavController().popBackStack()
     }
 
     companion object {
-        const val EMOJI_REQUEST_KEY = "emoji"
-        const val EMOJI_BUNDLE_KEY = "emoji"
+        const val KEY_REQUEST_EMOJI = "Key_Emoji"
+        const val KEY_BUNDLE_EMOJI = "Key_Bundle_Emoji"
     }
-
-    override fun onEmojiBackspaceClick() {
-    }
-
 }

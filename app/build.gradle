@@ -79,6 +79,9 @@ dependencies {
     //Emoji Library
     implementation "com.vanniktech:emoji-google:0.15.0"
 
+    //Google emojies
+    implementation "com.vanniktech:emoji-google:0.15.0"
+
 }
 repositories {
     mavenCentral()

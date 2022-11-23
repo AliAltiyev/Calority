@@ -1,5 +1,6 @@
 package com.altyyev.calority.ui.add
 
+import EmojiFragment
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -9,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.altyyev.calority.R
 import com.altyyev.calority.databinding.FragmentAddWeightBinding
-import com.altyyev.calority.ui.emoji.EmojiFragment
 import com.altyyev.calority.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -22,6 +22,7 @@ const val TAG_DATE_PICKER = "Tag_Date_Picker"
 @AndroidEntryPoint
 class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight) {
 
+    var emoji: String = String.EMPTY
 
     private val viewModel: AddWeightViewModel by viewModels()
 
@@ -29,7 +30,6 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
 
     private val binding by viewBinding(FragmentAddWeightBinding::bind)
 
-    private var emoji: String = String.EMPTY
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
@@ -38,16 +38,17 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
     }
 
     private fun initViews() = with(binding) {
+        emojiButton.setOnClickListener {
+            findNavController().navigate(R.id.action_addWeightFragment_to_emojiFragment)
+        }
         btnSaveOrUpdateWeight.setOnClickListener {
-            val emoji = emojiEditText.text.toString()
-
             val weight = inputWeightTxt.text.toString()
             val note = inputNoteTxt.text.toString()
             viewModel.insertOrUpdateWeight(
                 weight = weight,
                 note = note,
                 timeStamp = selectedDate,
-                emoji = emoji
+                emoji
             )
         }
 
@@ -72,17 +73,6 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
             datePicker.show(parentFragmentManager, TAG_DATE_PICKER)
         }
         btnSelectDate.text = selectedDate.toFormat(CURRENT_DATE_FORMAT)
-
-
-        //Navigate to Emoji fragment
-        emojiEditText.setOnClickListener {
-            findNavController().navigate(R.id.action_addWeightFragment_to_emojiFragment)
-        }
-
-        //Set emoji to button
-        emojiEditText.text = emoji
-
-
     }
 
     private fun fetchDate(date: Date) {
@@ -112,10 +102,9 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                 ::setUiState
             )
         }
-
-        setFragmentResultListener(EmojiFragment.EMOJI_REQUEST_KEY) { _, bundle ->
-            emoji = bundle.getString(EmojiFragment.EMOJI_BUNDLE_KEY).orEmpty()
-
+        setFragmentResultListener(EmojiFragment.KEY_REQUEST_EMOJI) { _, bundle ->
+            emoji = bundle.getString(EmojiFragment.KEY_BUNDLE_EMOJI).orEmpty()
+            binding.emojiButton.setText(emoji)
         }
 
     }

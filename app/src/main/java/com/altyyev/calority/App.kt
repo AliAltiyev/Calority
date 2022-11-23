@@ -26,11 +26,12 @@ class App : Application() {
 
     private fun setUpTimber() {
         if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree());
+            Timber.plant(Timber.DebugTree())
         }
     }
 
     private fun setUpHawk() {
         Hawk.init(this).build()
     }
+
 }

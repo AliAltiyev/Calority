@@ -18,7 +18,7 @@ interface WeightDao {
     @Update
     suspend fun updateWeight(weight: WeightEntity)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg weight: WeightEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

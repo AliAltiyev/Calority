@@ -37,13 +37,8 @@
 			android:id="@+id/action_addWeightFragment_to_emojiFragment"
 			app:destination="@id/emojiFragment" />
 	</dialog>
-	<fragment
+	<dialog
 		android:id="@+id/emojiFragment"
-		android:name="com.altyyev.calority.ui.emoji.EmojiFragment"
-		android:label="fragment_emoji"
-		tools:layout="@layout/fragment_emoji" >
-		<action
-			android:id="@+id/action_emojiFragment_to_addWeightFragment"
-			app:destination="@id/addWeightFragment" />
-	</fragment>
+		android:name="EmojiFragment"
+		android:label="EmojiFragment" />
 </navigation>

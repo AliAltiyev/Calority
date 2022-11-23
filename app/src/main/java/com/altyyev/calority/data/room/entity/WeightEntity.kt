@@ -7,7 +7,9 @@ import java.util.*
 
 @Entity(tableName = "weight")
 data class WeightEntity(
-    @PrimaryKey(autoGenerate = true) var uid: Int? = 0,
+    @PrimaryKey(autoGenerate = true)
+    var uid: Int,
+
     @ColumnInfo(name = "weight") var weight: String?,
     @ColumnInfo(name = "timestamp") var timeStamp: Date?,
     @ColumnInfo(name = "emoji") var emoji: String?,

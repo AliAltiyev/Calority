@@ -121,19 +121,11 @@
 
 
 		<Button
-			android:id="@+id/emojiEditText"
-			android:background="@color/Purple"
+			android:id="@+id/emoji_button"
+			android:layout_margin="8dp"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:textColorHint="@color/white"
-			android:layout_marginStart="32dp"
-			android:layout_marginTop="16dp"
-			android:layout_marginEnd="32dp"
-			android:hint="@string/emoji"
-			android:imeOptions="actionSend"
-			android:inputType="textCapSentences|textMultiLine"
-			android:maxLength="1"
-			android:maxLines="3" />
+			android:text="Select Emoji" />
 
 		<com.google.android.material.button.MaterialButton
 			android:id="@+id/btn_save_or_update_weight"

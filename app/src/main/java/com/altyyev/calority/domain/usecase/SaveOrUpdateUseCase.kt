@@ -25,13 +25,13 @@ class SaveOrUpdateUseCase @Inject constructor(private val dao: WeightDao) {
                     weight = weight,
                     timeStamp = timeStamp,
                     note = note,
-                    emoji = emoji
+                    emoji = emoji,
+                    uid = 0
                 )
             )
         } else {
             Timber.d("Saved : Updated")
             dao.updateWeight(
-
                 WeightEntity(
                     uid = weightList.first().uid,
                     weight = weight,

@@ -17,7 +17,8 @@ object WeightEntityMapper {
         weight = weightEntity.weight.orEmpty(),
         emoji = weightEntity.emoji.orEmpty(),
         note = weightEntity.note.orEmpty(),
-        timeStamp = weightEntity.timeStamp
+        timeStamp = weightEntity.timeStamp,
+        uid = 0
     )
 
     fun mapList(list: List<WeightEntity>): List<WeightUiModel> {
