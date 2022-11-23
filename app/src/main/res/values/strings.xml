@@ -16,6 +16,8 @@
 	<string name="previous_day">Prev</string>
 	<string name="next_day">Next</string>
 	<string name="emoji">Emoji</string>
+	<string name="selectEmoji">Select Emoji</string>
+	<string name="select_emoji_with_emoji_format">%1$s Select emoji</string>
 
 
 </resources>

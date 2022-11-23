@@ -1,6 +1,6 @@
 package com.altyyev.calority.ui.add
 
-import EmojiFragment
+import com.altyyev.calority.ui.emoji.EmojiFragment
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.altyyev.calority.R
 import com.altyyev.calority.databinding.FragmentAddWeightBinding
+import com.altyyev.calority.domain.uimodel.WeightUiModel
 import com.altyyev.calority.utils.*
 import com.altyyev.calority.utils.Constants.CURRENT_DATE_FORMAT
 import com.altyyev.calority.utils.Constants.TAG_DATE_PICKER
@@ -17,7 +18,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-
 
 
 @AndroidEntryPoint
@@ -105,18 +105,18 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
         }
         setFragmentResultListener(EmojiFragment.KEY_REQUEST_EMOJI) { _, bundle ->
             emoji = bundle.getString(EmojiFragment.KEY_BUNDLE_EMOJI).orEmpty()
-            binding.emojiButton.setText(emoji)
+            binding.emojiButton.text = emoji
         }
 
     }
 
     private fun setUiState(uiState: AddWeightViewModel.UiState) = with(binding) {
-        val currentWeight = uiState.currentWeight
+        val weight = uiState.currentWeight
 
-        inputNoteTxt.setText(currentWeight?.note.orEmpty())
-        inputWeightTxt.setText(currentWeight?.weight.orEmpty())
+        inputNoteTxt.setText(weight?.note.orEmpty())
+        inputWeightTxt.setText(weight?.weight.orEmpty())
 
-        if (currentWeight != null) {
+        if (weight != null) {
             //Update weight
             btnSaveOrUpdateWeight.run {
                 setBackgroundColor(
@@ -142,8 +142,18 @@ class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight
                 setIconTintResource(R.color.white)
                 setText(R.string.Save)
             }
+        }
+        setEmojiButtonState(weight = weight)
+    }
 
-
+    private fun setEmojiButtonState(weight: WeightUiModel?) = with(binding) {
+        if (weight == null) {
+            emojiButton.text = getString(R.string.selectEmoji)
+        } else {
+            binding.emojiButton.text = getString(
+                R.string.select_emoji_with_emoji_format,
+                weight.emoji
+            )
         }
     }
 }
