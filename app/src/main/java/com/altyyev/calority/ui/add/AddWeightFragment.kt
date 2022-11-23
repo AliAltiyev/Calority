@@ -11,13 +11,14 @@ import androidx.navigation.fragment.findNavController
 import com.altyyev.calority.R
 import com.altyyev.calority.databinding.FragmentAddWeightBinding
 import com.altyyev.calority.utils.*
+import com.altyyev.calority.utils.Constants.CURRENT_DATE_FORMAT
+import com.altyyev.calority.utils.Constants.TAG_DATE_PICKER
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
-const val CURRENT_DATE_FORMAT = "dd MMM yyyy"
-const val TAG_DATE_PICKER = "Tag_Date_Picker"
+
 
 @AndroidEntryPoint
 class AddWeightFragment : BottomSheetDialogFragment(R.layout.fragment_add_weight) {

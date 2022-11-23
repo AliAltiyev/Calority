@@ -8,6 +8,8 @@ fun Date.toFormat(dateFormat: String): String {
 }
 
 
+
+
 fun Date.startOfDay(): Date {
     val calendar = Calendar.getInstance()
     calendar.time = this

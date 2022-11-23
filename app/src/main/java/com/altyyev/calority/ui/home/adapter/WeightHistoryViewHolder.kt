@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.altyyev.calority.R
 import com.altyyev.calority.databinding.WeightHistoryRecyclerItemBinding
 import com.altyyev.calority.domain.uimodel.WeightUiModel
+import com.altyyev.calority.utils.Constants.CURRENT_DATE_FORMAT
+import com.altyyev.calority.utils.toFormat
 
 class WeightHistoryViewHolder(
     view: View,
@@ -19,6 +21,7 @@ class WeightHistoryViewHolder(
         }
         noteTxt.text = weightUiModel.note
         weightTxt.text = itemView.context.getString(R.string.kg, weightUiModel.weight)
-        date.text = weightUiModel.timeStamp.toString()
+        date.text = weightUiModel.timeStamp?.toFormat(CURRENT_DATE_FORMAT)
+        emojiTxt.text = weightUiModel.emoji.toString()
     }
 }
